@@ -1,0 +1,381 @@
+:root {
+  color: #17201b;
+  background: #f7f4ee;
+  font-family:
+    Inter, "Noto Sans TC", "Microsoft JhengHei", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 48px;
+}
+
+.hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 28px 0 20px;
+}
+
+.eyebrow,
+.label {
+  margin: 0 0 6px;
+  color: #7d1f2c;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 10px;
+  color: #151817;
+  font-size: clamp(2.2rem, 7vw, 4.8rem);
+  line-height: 0.98;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: 1.05rem;
+}
+
+.summary {
+  max-width: 560px;
+  margin-bottom: 0;
+  color: #4e5a54;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  gap: 8px;
+  border: 1px solid #c9d4cd;
+  border-radius: 8px;
+  padding: 0 14px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.iconButton.primary {
+  border-color: #0f6a5d;
+  background: #0f6a5d;
+  color: #ffffff;
+}
+
+.iconButton.secondary {
+  background: #ffffff;
+  color: #20312b;
+}
+
+.controlBand {
+  display: grid;
+  grid-template-columns: 1fr 1fr minmax(240px, 0.75fr);
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.panel,
+.tablePanel,
+.summaryCard {
+  border: 1px solid #d7ddd8;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(36, 45, 40, 0.06);
+}
+
+.panel {
+  padding: 16px;
+}
+
+.panelHeader,
+.tableHeader,
+.summaryTop,
+.probabilityRow,
+.rangeTicks {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pill {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  border-radius: 999px;
+  background: #eef3f0;
+  color: #31413a;
+  padding: 0 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.strengthGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.strengthInput {
+  display: grid;
+  gap: 6px;
+}
+
+.strengthInput span {
+  color: #6d766f;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.strengthInput input {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid #cbd5ce;
+  border-radius: 8px;
+  padding: 6px;
+  text-align: center;
+}
+
+.modelPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.rangeLabel {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 16px;
+  color: #4d5c55;
+  font-weight: 700;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #0f6a5d;
+}
+
+.rangeTicks {
+  color: #6b766f;
+  font-size: 0.78rem;
+}
+
+.scoreBand {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.summaryCard {
+  padding: 18px;
+}
+
+.summaryCard.highlighted {
+  border-color: #b44c2f;
+}
+
+.summaryTop h2 {
+  color: #13251f;
+  font-size: 2.2rem;
+}
+
+.summaryTop svg {
+  color: #b44c2f;
+}
+
+.bar {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e4e8e4;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #0f6a5d;
+}
+
+.probabilityRow {
+  margin-top: 10px;
+  color: #4f5c55;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.tablePanel {
+  overflow: hidden;
+}
+
+.tableHeader {
+  padding: 16px;
+  border-bottom: 1px solid #e0e5e1;
+}
+
+.tableHeader span {
+  color: #0f6a5d;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.pointList {
+  display: grid;
+}
+
+.pointRow {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr) 72px;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid #edf0ed;
+}
+
+.pointRow:last-child {
+  border-bottom: 0;
+}
+
+.pointMeta {
+  display: grid;
+  gap: 4px;
+}
+
+.pointMeta span,
+.pointProbability span,
+.matchup small {
+  color: #6d766f;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.matchup {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.matchup p {
+  margin-bottom: 2px;
+  overflow-wrap: anywhere;
+  font-weight: 800;
+}
+
+.teamLabel {
+  display: inline-flex;
+  min-width: 24px;
+  min-height: 24px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 6px;
+  border-radius: 6px;
+  background: #7d1f2c;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.teamLabel.blue {
+  background: #1f4f8f;
+}
+
+.pointProbability {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+}
+
+.pointProbability strong {
+  color: #0f6a5d;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 920px) {
+  .hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+
+  .controlBand,
+  .comparison {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .app {
+    width: min(100% - 20px, 1180px);
+    padding-top: 14px;
+  }
+
+  .scoreBand {
+    grid-template-columns: 1fr;
+  }
+
+  .strengthGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .pointRow {
+    grid-template-columns: 1fr;
+  }
+
+  .pointProbability {
+    justify-items: start;
+  }
+
+  .tableHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

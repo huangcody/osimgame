@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+coverage/
+.test-build/
+
+# Local caches and temporary files
+tmp/
+.vite/
+.cache/
+.npm-cache/
+
+# Local environment overrides
+.env
+.env.*
+!.env.example
+config.local.toml
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+*.log
