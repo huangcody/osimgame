@@ -464,6 +464,13 @@ input[type="range"] {
   margin-bottom: 12px;
 }
 
+.sectionHeader.tight p {
+  margin: 6px 0 0;
+  color: #6d766f;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
 .pill {
   display: inline-flex;
   min-height: 28px;
@@ -496,6 +503,11 @@ input[type="range"] {
   font-weight: 900;
 }
 
+.playerChip:hover,
+.slot:hover {
+  border-color: #0f6a5d;
+}
+
 .playerChip.selected {
   border-color: #0f6a5d;
   background: #e8f3ef;
@@ -524,6 +536,17 @@ input[type="range"] {
 .slot span {
   color: #4e5a54;
   overflow-wrap: anywhere;
+}
+
+.slot em {
+  width: fit-content;
+  border-radius: 999px;
+  background: #eef3f0;
+  color: #31413a;
+  padding: 3px 8px;
+  font-size: 0.76rem;
+  font-style: normal;
+  font-weight: 900;
 }
 
 .warning {

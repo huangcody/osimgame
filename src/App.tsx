@@ -553,11 +553,20 @@ function LineupBoard({ side, team, lineup, setLineup, selectedDrag, setSelectedD
     setSelectedDrag(null);
   };
 
+  const clearSlot = (slotIndex: number) => {
+    const next = cloneLineup(lineup);
+    next[slotIndex].players = [];
+    setLineup(next);
+  };
+
   return (
     <section className="lineupBoard">
       <div className="sectionHeader tight">
-        <h2>{team.name} 手動配置</h2>
-        <span className="pill">{side === "a" ? "A" : "B"}</span>
+        <div>
+          <h2>{team.name} 手動配置</h2>
+          <p>先點選球員，再點下方槽位放入。雙打槽可放 2 人。</p>
+        </div>
+        <span className="pill">{selectedDrag?.side === side ? `已選 ${selectedDrag.player.label}` : side === "a" ? "A" : "B"}</span>
       </div>
       <div className="playerTray">
         {team.players.map((player) => (
@@ -565,7 +574,7 @@ function LineupBoard({ side, team, lineup, setLineup, selectedDrag, setSelectedD
             type="button"
             draggable
             key={player.id}
-            className={`playerChip ${selectedDrag?.player.id === player.id ? "selected" : ""}`}
+            className={`playerChip ${selectedDrag?.side === side && selectedDrag.player.id === player.id ? "selected" : ""}`}
             onClick={() => setSelectedDrag({ side, player })}
             onDragStart={() => setSelectedDrag({ side, player })}
           >
@@ -585,6 +594,7 @@ function LineupBoard({ side, team, lineup, setLineup, selectedDrag, setSelectedD
           >
             <strong>第 {index + 1} 點 {POINT_TYPES[index] === "singles" ? "單" : "雙"}</strong>
             <span>{point.players.length ? formatPlayers(point.players) : "點選球員後放入"}</span>
+            {point.players.length > 0 && <em onClick={(event) => { event.stopPropagation(); clearSlot(index); }}>清除</em>}
           </button>
         ))}
       </div>
