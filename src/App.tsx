@@ -333,7 +333,10 @@ function OverallScenario({
       </div>
       <div className="tablePanel rankingPanel">
         <div className="tableHeader">
-          <h2>平均勝率排名</h2>
+          <div>
+            <h2>平均勝率排名</h2>
+            <p>最接近五五波：指該隊所有對戰中，勝率最接近 50% 的對手；隊伍數少時，此指標僅供參考。</p>
+          </div>
           <span>{matrix.runs.toLocaleString()} 次抽樣</span>
         </div>
         <div className="rankingList">
@@ -491,10 +494,10 @@ function StrategyCrossTable({ results, teamAName, teamBName }: { results: CrossR
           <h2>策略交叉比較</h2>
           <p>用來判斷 {teamAName} 是否不管 {teamBName} 怎麼排，都比較適合 Single 或 Multi。</p>
         </div>
-        <span>A 勝率</span>
+        <span>勝率</span>
       </div>
       <div className="crossGrid">
-        <div className="crossCorner">A 策略 / B 策略</div>
+        <div className="crossCorner">策略選項</div>
         {cols.map((col) => <div key={col} className="crossHead">{strategyShortLabel(col)}</div>)}
         {rows.map((row) => (
           <>
