@@ -97,8 +97,7 @@ h2 {
 
 .iconButton,
 .textButton,
-.tabs button,
-.segmented button {
+.tabs button {
   min-height: 40px;
   border: 1px solid #c9d4cd;
   border-radius: 8px;
@@ -127,8 +126,7 @@ h2 {
   margin: 8px 0 16px;
 }
 
-.tabs,
-.segmented {
+.tabs {
   display: flex;
   gap: 6px;
   border-radius: 8px;
@@ -136,14 +134,12 @@ h2 {
   padding: 4px;
 }
 
-.tabs button,
-.segmented button {
+.tabs button {
   border: 0;
   background: transparent;
 }
 
-.tabs button.active,
-.segmented button.active {
+.tabs button.active {
   background: #ffffff;
   color: #0f6a5d;
   box-shadow: 0 2px 10px rgba(28, 42, 35, 0.08);
@@ -160,13 +156,6 @@ h2 {
 .modelStrip.withoutStrategy {
   grid-template-columns: minmax(240px, 420px) 140px;
   justify-content: end;
-}
-
-.strategyControl {
-  display: grid;
-  gap: 6px;
-  color: #4d5c55;
-  font-weight: 900;
 }
 
 .rangeLabel,
@@ -287,6 +276,11 @@ input[type="range"] {
   gap: 14px;
 }
 
+.overallStack {
+  display: grid;
+  gap: 16px;
+}
+
 .tablePanel {
   overflow: hidden;
 }
@@ -300,6 +294,13 @@ input[type="range"] {
   color: #0f6a5d;
   font-weight: 900;
   white-space: nowrap;
+}
+
+.tableHeader p {
+  margin: 6px 0 0;
+  color: #6d766f;
+  font-size: 0.86rem;
+  line-height: 1.5;
 }
 
 .matrixScroll {
@@ -391,6 +392,11 @@ input[type="range"] {
 
 .crossCell strong {
   font-size: 1.25rem;
+}
+
+.crossCell .secondaryRate {
+  color: #1f4f8f;
+  font-size: 1rem;
 }
 
 .crossCell span {
@@ -686,9 +692,6 @@ input[type="range"] {
     flex: 1;
   }
 
-  .segmented {
-    width: fit-content;
-  }
 }
 
 @media (max-width: 560px) {

@@ -29,7 +29,6 @@ interface DragSelection {
 function App() {
   const [teams, setTeams] = useState<TeamDefinition[]>(DEFAULT_TEAMS);
   const [tab, setTab] = useState<TabId>("detail");
-  const [strategy, setStrategy] = useState<StrategyId>("single");
   const [sensitivity, setSensitivity] = useState(1);
   const [runs, setRuns] = useState(DEFAULT_MONTE_CARLO_RUNS);
   const [seedNonce, setSeedNonce] = useState(1);
@@ -57,9 +56,13 @@ function App() {
     setSelectedDrag(null);
   }, [teamA.id, teamA.players, teamB.id, teamB.players]);
 
-  const matrix = useMemo(
-    () => buildTournamentMatrix(teams, strategy, sensitivity, runs, seedNonce),
-    [teams, strategy, sensitivity, runs, seedNonce],
+  const singleMatrix = useMemo(
+    () => buildTournamentMatrix(teams, "single", sensitivity, runs, seedNonce),
+    [teams, sensitivity, runs, seedNonce],
+  );
+  const multiMatrix = useMemo(
+    () => buildTournamentMatrix(teams, "multi", sensitivity, runs, seedNonce),
+    [teams, sensitivity, runs, seedNonce],
   );
 
   const singleResult = useMemo(
@@ -80,7 +83,7 @@ function App() {
     ? evaluateHeadToHead(teamA, teamB, manualA, manualB, sensitivity, runs, seedNonce + 1000, "manual")
     : null;
 
-  const downloadMatrix = () => downloadText("osim-overall-matrix.csv", exportMatrixCsv(matrix));
+  const downloadMatrix = () => downloadText("osim-overall-matrix.csv", `${exportMatrixCsv(singleMatrix)}\n${exportMatrixCsv(multiMatrix).split("\n").slice(1).join("\n")}`);
   const downloadDetail = () => {
     const results = [manualResult, singleResult, multiResult].filter(Boolean) as HeadToHeadResult[];
     downloadText("osim-head-to-head.csv", exportHeadToHeadCsv(results));
@@ -119,13 +122,10 @@ function App() {
           <button type="button" className={tab === "cross" ? "active" : ""} onClick={() => setTab("cross")}>策略交叉</button>
         </div>
         <ModelControls
-          strategy={strategy}
-          setStrategy={setStrategy}
           sensitivity={sensitivity}
           setSensitivity={setSensitivity}
           runs={runs}
           setRuns={setRuns}
-          showStrategy={tab === "overall"}
         />
       </section>
 
@@ -135,7 +135,8 @@ function App() {
 
       {tab === "overall" ? (
         <OverallDashboard
-          matrix={matrix}
+          singleMatrix={singleMatrix}
+          multiMatrix={multiMatrix}
           teams={teams}
           onSelectMatchup={(nextA, nextB) => {
             setTeamAId(nextA.id);
@@ -176,33 +177,18 @@ function App() {
 }
 
 function ModelControls({
-  strategy,
-  setStrategy,
   sensitivity,
   setSensitivity,
   runs,
   setRuns,
-  showStrategy,
 }: {
-  strategy: StrategyId;
-  setStrategy: (strategy: StrategyId) => void;
   sensitivity: number;
   setSensitivity: (value: number) => void;
   runs: number;
   setRuns: (value: number) => void;
-  showStrategy: boolean;
 }) {
   return (
-    <div className={`modelStrip ${showStrategy ? "" : "withoutStrategy"}`}>
-      {showStrategy && (
-        <div className="strategyControl">
-          <span>矩陣策略</span>
-          <div className="segmented">
-            <button type="button" className={strategy === "single" ? "active" : ""} onClick={() => setStrategy("single")}>Single</button>
-            <button type="button" className={strategy === "multi" ? "active" : ""} onClick={() => setStrategy("multi")}>Multi</button>
-          </div>
-        </div>
-      )}
+    <div className="modelStrip withoutStrategy">
       <label className="rangeLabel" htmlFor="sensitivity">
         勝率敏感度 <strong>{sensitivity.toFixed(2)}</strong>
         <input id="sensitivity" type="range" min="0.1" max="3" step="0.05" value={sensitivity} onChange={(event) => setSensitivity(Number(event.target.value))} />
@@ -293,13 +279,47 @@ function TeamManager({ teams, setTeams }: { teams: TeamDefinition[]; setTeams: (
   );
 }
 
-function OverallDashboard({ matrix, teams, onSelectMatchup }: { matrix: TournamentMatrixResult; teams: TeamDefinition[]; onSelectMatchup: (teamA: TeamDefinition, teamB: TeamDefinition) => void }) {
+function OverallDashboard({
+  singleMatrix,
+  multiMatrix,
+  teams,
+  onSelectMatchup,
+}: {
+  singleMatrix: TournamentMatrixResult;
+  multiMatrix: TournamentMatrixResult;
+  teams: TeamDefinition[];
+  onSelectMatchup: (teamA: TeamDefinition, teamB: TeamDefinition) => void;
+}) {
+  return (
+    <section className="overallStack">
+      <OverallScenario matrix={singleMatrix} teams={teams} title="Single Scenario" subtitle="所有隊伍都採單點思維" onSelectMatchup={onSelectMatchup} />
+      <OverallScenario matrix={multiMatrix} teams={teams} title="Multi-Scenario" subtitle="所有隊伍都採多點思維" onSelectMatchup={onSelectMatchup} />
+    </section>
+  );
+}
+
+function OverallScenario({
+  matrix,
+  teams,
+  title,
+  subtitle,
+  onSelectMatchup,
+}: {
+  matrix: TournamentMatrixResult;
+  teams: TeamDefinition[];
+  title: string;
+  subtitle: string;
+  onSelectMatchup: (teamA: TeamDefinition, teamB: TeamDefinition) => void;
+}) {
   return (
     <section className="dashboardGrid">
       <div className="tablePanel matrixPanel">
         <div className="tableHeader">
-          <h2>勝率矩陣</h2>
-          <span>{matrix.strategy === "single" ? "Single vs Single" : "Multi vs Multi"}</span>
+          <div>
+            <h2>{title}</h2>
+            <p>{subtitle}</p>
+          </div>
+          <span>勝率矩陣</span>
         </div>
         <div className="matrixScroll">
           <div className="matrix" style={{ gridTemplateColumns: `96px repeat(${teams.length}, minmax(92px, 1fr))` }}>
@@ -481,10 +501,12 @@ function StrategyCrossTable({ results, teamAName, teamBName }: { results: CrossR
             <div key={`${row}-label`} className="crossSide">{strategyShortLabel(row)}</div>
             {cols.map((col) => {
               const item = getResult(row, col);
-              const percent = item.result.theoreticalAWinProbability * 100;
+              const aPercent = item.result.theoreticalAWinProbability * 100;
+              const bPercent = 100 - aPercent;
               return (
                 <article key={`${row}-${col}`} className="crossCell" style={{ background: heatColor(item.result.theoreticalAWinProbability) }}>
-                  <strong>{percent.toFixed(1)}%</strong>
+                  <strong>{item.result.teamA.name} {aPercent.toFixed(1)}%</strong>
+                  <strong className="secondaryRate">{item.result.teamB.name} {bPercent.toFixed(1)}%</strong>
                   <span>抽樣 {(item.result.monteCarlo.simulatedAWinProbability * 100).toFixed(1)}%</span>
                 </article>
               );
