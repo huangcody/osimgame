@@ -678,14 +678,16 @@ input[type="range"] {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .tabs,
-  .segmented {
+  .tabs {
     width: 100%;
   }
 
-  .tabs button,
-  .segmented button {
+  .tabs button {
     flex: 1;
+  }
+
+  .segmented {
+    width: fit-content;
   }
 }
 
