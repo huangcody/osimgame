@@ -22,3 +22,6 @@ config.local.toml
 .DS_Store
 Thumbs.db
 *.log
+
+# Source handout kept locally only
+osim盃桌球團體賽_單張工作底稿_PrintOut.pdf
