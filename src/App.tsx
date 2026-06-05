@@ -498,10 +498,10 @@ function StrategyCrossTable({ results, teamAName, teamBName }: { results: CrossR
       </div>
       <div className="crossGrid">
         <div className="crossCorner">策略選項</div>
-        {cols.map((col) => <div key={col} className="crossHead">{strategyShortLabel(col)}</div>)}
+        {cols.map((col) => <div key={col} className="crossHead">客隊 {strategyShortLabel(col)}</div>)}
         {rows.map((row) => (
           <>
-            <div key={`${row}-label`} className="crossSide">{strategyShortLabel(row)}</div>
+            <div key={`${row}-label`} className="crossSide">主隊 {strategyShortLabel(row)}</div>
             {cols.map((col) => {
               const item = getResult(row, col);
               const aPercent = item.result.theoreticalAWinProbability * 100;
