@@ -118,7 +118,7 @@ function App() {
       <section className="topControls">
         <div className="tabs" role="tablist">
           <button type="button" className={tab === "detail" ? "active" : ""} onClick={() => setTab("detail")}>單一對戰</button>
-          <button type="button" className={tab === "overall" ? "active" : ""} onClick={() => setTab("overall")}>整體對戰</button>
+          <button type="button" className={tab === "overall" ? "active" : ""} onClick={() => setTab("overall")}>多隊對戰</button>
           <button type="button" className={tab === "cross" ? "active" : ""} onClick={() => setTab("cross")}>策略交叉</button>
         </div>
         <ModelControls
